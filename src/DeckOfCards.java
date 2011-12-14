@@ -11,20 +11,19 @@ public class DeckOfCards {
 	public DeckOfCards(){
 		/*
 		 * Creates a deck of cards of each of four possible suits,
-		 * ranging from one to thirteen. One being an Ace and 
-		 * thirteen a King.
+		 * ranging from  Ace to King.
 		 */
-		int suits = 4;
-		int cardNums = 13;
-		for(int i=1; i<=cardNums ; i++){
-			for(int j=0;j < suits;j++){
-				deckSave.add(new Card(i,j));
+		final int cardValues = 13;
+		for(int i=1;i<=cardValues;i++){
+			for(Card.Suit suit: Card.Suit.values()){
+				deckSave.add(new Card(i, suit));
 			}
 		}
+		
 		deck = new LinkedList<Card>(deckSave);
 		
-		System.out.println(deckSave.size());
 	}
+	
 	public void shuffle(){
 		/*
 		 * Returns the deck to it's original state.
@@ -40,10 +39,14 @@ public class DeckOfCards {
 		/*
 		 * Removes and returns the specified card from the deck.
 		 * 
-		 * 0 = CLUBS
-		 * 1 = DIAMONDS
-		 * 2 = HEARTS
-		 * 3 = SPADES
+		 * ACE = 1
+		 * ...
+		 * KING = 13
+		 * 
+		 * 0 = HEARTS
+		 * 1 = SPADES
+		 * 2 = DIAMONDS
+		 * 3 = CLUBS
 		 */
 		
 		//Magic
@@ -58,45 +61,30 @@ public class DeckOfCards {
 		/*
 		 * Removes and returns one random Card object from the deck.
 		 */
-		Card drawn;
-		int j = randInt.nextInt(deck.size());
-		drawn = deck.get(j);
-		deck.remove(j);
+		
+		int i = randInt.nextInt(deck.size());
+		Card drawn = deck.get(i);
+		deck.remove(i);
 		return drawn;
 	}
 	
 }
 
 final class Card{
-	private final int number;
-	private static enum suits{HEARTS,SPADES,DIAMONDS,CLUBS}
-	private final suits suit;
+	public enum Suit{HEARTS,SPADES,DIAMONDS,CLUBS}
 	
-	Card(int number,int whichSuit){
-		switch (whichSuit) {
-		case 0:
-			this.suit =suits.CLUBS;
-			break;
-		case 1:
-			this.suit =suits.DIAMONDS;
-			break;
-		case 2:
-			this.suit =suits.HEARTS;
-			break;
-		case 3:
-			this.suit =suits.SPADES;
-			break;
-		default:
-			this.suit =suits.CLUBS;
-			throw new IllegalArgumentException("Illegal argument for whichSuit. Defaulted to CLUBS");
-		}
-		this.number = number;
+	private final Suit suit;
+	private final int value;
+	
+	Card(int v, Suit s){
+		this.value = v;
+		this.suit = s;
 	}
-	public suits getSuit() {
-		return suit;
-	}
-	public int getNumber() {
-		return number;
-	}
+	
+	public String toString(){return value+" of "+suit;}
+	
+	public Suit getSuit() {return suit;}
+	
+	public int getNumber() {return value;}
 	
 }	
