@@ -1,3 +1,7 @@
+/*
+* Simple proof of concept
+*/
+
 import java.util.LinkedList;
 import java.util.List;
 
